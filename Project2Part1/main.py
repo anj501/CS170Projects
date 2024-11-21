@@ -5,16 +5,28 @@ class Feature:
 
  def fowardSelect(self):
     currFeature = []
+    overallAccuracy = 0
+    bestFeature = []
     for i in range(1, self.numFeatures + 1):
         bestAccuracy = 0   
+        addFeature = 0
         for i in range(1, self.numFeatures + 1):
-            if i != currFeature:
+            if i not in currFeature:
                 tempFeature = list(currFeature) + [i]
                 accuracy = round(random.uniform(20, 100))
                 print("Using feature(s) " + str(set(tempFeature)) + " accuracy is " + str(accuracy) + "%")
                 if accuracy > bestAccuracy:
                     bestAccuracy = accuracy
+                    addFeature = i
                     
+        if addFeature:
+            currFeature.append(addFeature)
+            print("Feature set " + str(set(currFeature)) + " was best, accuracy is " + str(bestAccuracy) + "%")
+            if bestAccuracy > overallAccuracy:
+                overallAccuracy = bestAccuracy
+                bestFeature = list(currFeature)
+            
+    print("Finished search!! The best feature subset is " + str(set(bestFeature)) + ", which has an accuracy of " + str(overallAccuracy) + "%")
 
 def main():
     print("Welcome to Justin's and Kyle's Feature Selection Algorithm.")
