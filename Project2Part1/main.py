@@ -7,13 +7,16 @@ class Feature:
     currFeature = []
     overallAccuracy = 0
     bestFeature = []
+    randomAccuracy = round(random.uniform(1, 100),1)
+    print("Using no features and \"random\" evalutation, I get an accuracy of " + str(randomAccuracy) + "%")
+    print("Beginning search.")
     for i in range(1, self.numFeatures + 1):
         bestAccuracy = 0   
         addFeature = 0
         for i in range(1, self.numFeatures + 1):
             if i not in currFeature:
                 tempFeature = list(currFeature) + [i]
-                accuracy = round(random.uniform(1, 100))
+                accuracy = round(random.uniform(1, 100),1)
                 print("Using feature(s) " + str(set(tempFeature)) + " accuracy is " + str(accuracy) + "%")
                 if accuracy > bestAccuracy:
                     bestAccuracy = accuracy
@@ -32,7 +35,9 @@ class Feature:
     currFeature = list(range(1, self.numFeatures + 1))
     overallAccuracy = 0
     bestFeature = list(currFeature)
-
+    randomAccuracy = round(random.uniform(1, 100),1)
+    print("Using no features and \"random\" evalutation, I get an accuracy of " + str(randomAccuracy) + "%")
+    print("Beginning search.")
     while len(currFeature) > 0:
         removeFeature = 0
         bestAccuracy = 0
@@ -40,7 +45,7 @@ class Feature:
         for i in currFeature:
             tempFeature = currFeature.copy()
             tempFeature.remove(i)
-            accuracy = round(random.uniform(1, 100))
+            accuracy = round(random.uniform(1, 100),1)
             print("Using feature(s) " + str(set(tempFeature)) + " accuracy is " + str(accuracy) + "%")
             if accuracy > bestAccuracy:
                 bestAccuracy = accuracy
