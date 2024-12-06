@@ -43,10 +43,13 @@ class Validator:
             predictClass = self.classfier.test(testInstance, featIndice)
             actualClass = testInstance[0]
 
+            print("Instance", i+1, ": Predicted =", predictClass, ", Actual =", actualClass)
+
             if predictClass == actualClass:
                 predictions += 1
 
         accuracy = predictions / nn
+        print("Predictions:", predictions, "/", nn)
         return accuracy
 
 
@@ -60,7 +63,7 @@ def loadData(filePath):
 
 
 if __name__ == "__main__":
-    filePath = "small-test-dataset.txt"  
+    filePath = "large-test-dataset.txt"  
     try:
         data = loadData(filePath)
     except Exception as e:
