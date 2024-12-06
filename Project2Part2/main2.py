@@ -25,14 +25,30 @@ class Classfier:
             Edistance.append(sqrt(distance))
         
         nearestNeighbor = Edistance.index(min(Edistance))
-        return self.trainData[nearestNeighbor][0]  
+        return self.trainData[ nearestNeighbor][0]  
 
 class Validator:
     def __init__(self, classfier):
         self.classfier = classfier
 
-    
-        
+    def validate(self, data, featIndice):
+        predictions = 0
+        nn = len(data)
+
+        for i in range(nn):
+            testInstance = data[i]
+            trainData = data[:i] + data[i+1:]
+
+            self.classfier.training(trainData)
+            predictClass = self.classfier.test(testInstance, featIndice)
+            actualClass = testInstance[0]
+
+            if predictClass == actualClass:
+                predictions += 1
+
+        accuracy = predictions / nn
+        return accuracy
+
 
 def loadData(filePath):
     data = []
@@ -54,3 +70,8 @@ if __name__ == "__main__":
     
     featSubset = list(map(int, input("Enter the feature subset: ").split()))  
 
+    nnClass = Classfier()
+    validator = Validator(nnClass)
+
+    accuracy = validator.validate(data, featSubset)
+    print(f"Accuracy: {accuracy:.3f}")
