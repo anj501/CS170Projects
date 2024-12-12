@@ -35,6 +35,36 @@ class Feature:
 
         print(f"Finished search!! The best feature subset is {set(bestFeature)}, which has an accuracy of {overallAccuracy:.2%}")
 
+    def backwardElimination(self):
+        currFeature = list(range(1, self.numFeatures + 1))
+        overallAccuracy = 0
+        bestFeature = list(currFeature)
+        initialAccuracy = self.validator.validate(self.data, currFeature)
+        print(f"Using all features and leave-one-out evaluation, I get an accuracy of {initialAccuracy:.2%}")
+        print("Beginning search.")
+
+        while len(currFeature) > 0:
+            removeFeature = 0
+            bestAccuracy = 0
+
+            for feature in currFeature:
+                tempFeature = currFeature.copy()
+                tempFeature.remove(feature)
+                accuracy = self.validator.validate(self.data, tempFeature)
+                print(f"Using feature(s) {set(tempFeature)} accuracy is {accuracy:.2%}")
+                if accuracy > bestAccuracy:
+                    bestAccuracy = accuracy
+                    removeFeature = feature
+
+            if removeFeature in currFeature:
+                currFeature.remove(removeFeature)
+                print(f"Feature set {set(currFeature)} was best, accuracy is {bestAccuracy:.2%}")
+                if bestAccuracy > overallAccuracy:
+                    overallAccuracy = bestAccuracy
+                    bestFeature = list(currFeature)
+
+        print(f"Finished search!! The best feature subset is {set(bestFeature)}, which has an accuracy of {overallAccuracy:.2%}")
+
 
 class Validator:
     def __init__(self, classifier):
@@ -51,7 +81,6 @@ class Validator:
             self.classifier.training(trainData)
             predictedClass = self.classifier.test(testInstance, featIndices)
             actualClass = testInstance[0]  
-
             if predictedClass == actualClass:
                 correctPredictions += 1
 
@@ -93,17 +122,21 @@ def loadData(filePath):
     return data
 
 if __name__ == "__main__":
-    filePath = "titanic clean.txt"
+    filePath = "Project2Part3/titanic clean.txt"
     try:
         data = loadData(filePath)
     except Exception as e:
         print("Error loading dataset: " + str(e))
         exit()
 
-    numFeatures = len(data[0]) - 1  
+    numFeatures = len(data[0]) - 1 
     classifier = Classifier()
     validator = Validator(classifier)
     featureSelector = Feature(numFeatures, validator, data)
 
     print("\nRunning Forward Selection:")
     featureSelector.forwardSelect()
+
+    print("\nRunning Backward Elimination:")
+    featureSelector.backwardElimination()
+
