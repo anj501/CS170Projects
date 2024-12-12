@@ -100,7 +100,7 @@ if __name__ == "__main__":
         print("Error loading dataset: " + str(e))
         exit()
 
-    numFeatures = len(data[0]) - 1  # Assuming the first column is the class label
+    numFeatures = len(data[0]) - 1  
     classifier = Classifier()
     validator = Validator(classifier)
     featureSelector = Feature(numFeatures, validator, data)
