@@ -81,6 +81,7 @@ class Validator:
             self.classifier.training(trainData)
             predictedClass = self.classifier.test(testInstance, featIndices)
             actualClass = testInstance[0]  
+
             if predictedClass == actualClass:
                 correctPredictions += 1
 
@@ -122,21 +123,35 @@ def loadData(filePath):
     return data
 
 if __name__ == "__main__":
-    filePath = "Project2Part3/titanic clean.txt"
+    print("Welcome to Kyle and Justin's Feature Selection Algorithm.")
+    filePath = input("Type in the name of the file to test: ")
     try:
         data = loadData(filePath)
     except Exception as e:
         print("Error loading dataset: " + str(e))
         exit()
 
-    numFeatures = len(data[0]) - 1 
+    numFeatures = len(data[0]) - 1  
+    print(f"This dataset has {numFeatures} features (not including the class attribute), with {len(data)} instances.")
+
+    print("Type the number of the algorithm you want to run.")
+    print("1. Forward Selection")
+    print("2. Backward Elimination")
+
+    choice = input()
+
     classifier = Classifier()
     validator = Validator(classifier)
     featureSelector = Feature(numFeatures, validator, data)
 
-    print("\nRunning Forward Selection:")
-    featureSelector.forwardSelect()
+    if choice == "1":
+        print("\nRunning Forward Selection:")
+        featureSelector.forwardSelect()
+    elif choice == "2":
+        print("\nRunning Backward Elimination:")
+        featureSelector.backwardElimination()
 
-    print("\nRunning Backward Elimination:")
-    featureSelector.backwardElimination()
-
+#Forward= {1,27} = 95.50%
+#Backward= {27} = 84.70%
+#Backward = {2,4,5,7,10} = 83.00%
+#Forward = {3,5} = 92.00%
