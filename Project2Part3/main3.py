@@ -151,7 +151,13 @@ if __name__ == "__main__":
         print("\nRunning Backward Elimination:")
         featureSelector.backwardElimination()
 
+#Group: Kyle Taing ktain007 024, Justin An jan053 024
+#Large Dataset Result:
 #Forward= {1,27} = 95.50%
 #Backward= {27} = 84.70%
+#Small Dataset Result:
 #Backward = {2,4,5,7,10} = 83.00%
 #Forward = {3,5} = 92.00%
+#Titanic Dataset Result
+#Forward = {2} = 78.01%
+#BackWard = {2} = 78.01%
